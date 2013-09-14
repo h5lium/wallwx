@@ -1,0 +1,12 @@
+{
+	"name": "wallwx",
+	"main": "app.js",
+	"dependencies": {
+		"express": "*",
+		"zepto-node": "*",
+		"domino": "*",
+		"bufferhelper": "*",
+		"underscore": "*",
+		"mongodb": "*"
+	}
+}

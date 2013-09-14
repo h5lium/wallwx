@@ -1,0 +1,6 @@
+/.project
+/.idea
+/*.zip
+/*.txt
+/npm-debug.log
+/node_modules/
