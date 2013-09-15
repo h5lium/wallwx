@@ -21,16 +21,22 @@ module.exports = function(reqObj, callback) {
 		gotoModule(InModules.CYDS, reqObj, callback);
 	} else {
 		var page = parseInt(msgIn) || 1;
-		cydsModel.find({}, function(err, docs) {
-			msgOut = getWelcomeStr(page, _.reduce(docs, function(memo, doc) {
-				doc.profile && memo.push(doc.profile);
-				return memo;
-			}, []));
-			sendMsg(msgOut);
-		}, {
-			sort: [['lastUpdate', -1]],
-			skip: (page - 1) * numPerPage,
-			limit: numPerPage
+		cydsModel.count({
+			profile: {$ne: ''}
+		}, function(err, count) {
+			cydsModel.find({
+				profile: {$ne: ''}
+			}, function(err, docs) {
+				msgOut = getWelcomeStr(_.reduce(docs, function(memo, doc) {
+					memo.push(doc.profile);
+					return memo;
+				}, []), page, Math.ceil(count / numPerPage));
+				sendMsg(msgOut);
+			}, {
+				sort: [['lastUpdate', -1]],
+				skip: (page - 1) * numPerPage,
+				limit: numPerPage
+			});
 		});
 	}
 	
@@ -38,10 +44,10 @@ module.exports = function(reqObj, callback) {
 		var now = new Date(), ofs = now.getTimezoneOffset();
 		return new Date(now.getTime() + (TIMEZONE_OFFSET-ofs)*3600000);
 	}
-	function getWelcomeStr(page, profiles) {
+	function getWelcomeStr(profiles, curPage, numPages) {
 		return [
 			'[创业大赛组队-简历列表]',
-			'第 '+ page +' 页: ',
+			'第 '+ curPage +' / '+ numPages +' 页: ',
 			_.reduce(profiles, function(memo, val, i) {
 				return memo + (memo && '\n') + (i + 1) + '. ' + val;
 			}, ''),
