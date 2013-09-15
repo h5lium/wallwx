@@ -43,7 +43,7 @@ module.exports = function(reqObj, callback) {
 			'[创业大赛组队-简历列表]',
 			'第 '+ page +' 页: ',
 			_.reduce(profiles, function(memo, val, i) {
-				return (memo && '\n') + memo + (i + 1) + '. ' + val;
+				return memo + (memo && '\n') + (i + 1) + '. ' + val;
 			}, ''),
 			'回复`0` 返回',
 			'回复数字n 进入第n页'
