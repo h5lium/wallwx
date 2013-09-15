@@ -5,7 +5,7 @@ module.exports = new Model().extend({
 		this.coll = this.db.collection(collName);
 	},
 	insert: function(data, callback, options) {
-		self.coll.insert(data, options || {}, callback);
+		this.coll.insert(data, options || {}, callback);
 	},
 	update: function(query, data, callback, options) {
 		this.coll.update(query, {

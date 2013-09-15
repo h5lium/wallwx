@@ -1,22 +1,20 @@
-var domino = require('domino'),
-Zepto = require('zepto-node'),
-window = domino.createWindow(),
-$ = Zepto(window),
-wxValid = require('./lib/weixin-valid'),
-TOKEN = 'etips',
-wxRouter = require('./weixin-router/');
 
+var domino = require('domino'),
+	Zepto = require('zepto-node'),
+	wxValid = require('./lib/weixin-valid'),
+	wxHandler = require('./weixin-handler/'),
+	TOKEN = 'etips',
+	window = domino.createWindow(),
+	$ = Zepto(window);
 
 exports.onValid = function(req, res, next){
 	req.query['echostr'] ? wxValid(req, res, TOKEN) : next();
 }
-
-exports.onMessage = function(req, res){
-	wxRouter(parseReqObj(req.rawBody), function(resObj) {
+exports.onMessage = function(req, res, next){
+	wxHandler(parseReqObj(req.rawBody), function(resObj) {
 		res.end(parseResXML(resObj));
 	});
 }
-
 
 function parseResXML(resObj){
 	return ['<xml>',

@@ -5,8 +5,6 @@
 		"express": "*",
 		"zepto-node": "*",
 		"domino": "*",
-		"bufferhelper": "*",
-		"underscore": "*",
-		"mongodb": "*"
+		"bufferhelper": "*"
 	}
 }
