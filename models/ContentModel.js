@@ -20,5 +20,8 @@ module.exports = new Model().extend({
 	},
 	remove: function(query, callback, options) {
 		this.coll.remove(query, options || {}, callback);
-	}
+	},
+	count: function(query, callback, options) {
+		this.coll.count(query, options || {}, callback);
+	},
 });
